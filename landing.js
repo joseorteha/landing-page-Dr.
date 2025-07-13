@@ -33,10 +33,6 @@ const LandingPage = () => {
     mensaje: ''
   });
 
-  // AGREGAR: Estado para el modal de detalles de servicio
-  const [selectedService, setSelectedService] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 300], [0, -50]);
   const y2 = useTransform(scrollY, [0, 300], [0, -100]);
@@ -60,15 +56,6 @@ const LandingPage = () => {
     e.preventDefault();
     alert('¡Gracias por tu mensaje! Te contactaremos pronto para agendar tu cita.');
     setFormData({ nombre: '', telefono: '', email: '', mensaje: '' });
-  };
-
-  // AGREGAR: Función para abrir modal de detalles
-  const handleShowDetails = (service) => {
-    setSelectedService(service);
-    setShowModal(true);
-  };
-  const handleCloseModal = () => {
-    setShowModal(false);
   };
 
   const services = [
@@ -151,22 +138,6 @@ const LandingPage = () => {
     }
   ];
 
-  // AGREGAR: Preguntas frecuentes (FAQ)
-  const faqs = [
-    {
-      question: "¿Aceptan seguros médicos?",
-      answer: "Sí, trabajamos con la mayoría de aseguradoras nacionales."
-    },
-    {
-      question: "¿Puedo agendar una consulta en línea?",
-      answer: "Por supuesto, puedes agendar desde el formulario de contacto o por WhatsApp."
-    },
-    {
-      question: "¿Tienen atención de urgencias?",
-      answer: "Sí, contamos con atención 24/7 para emergencias médicas."
-    }
-  ];
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -190,21 +161,47 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#f8fafc] relative overflow-x-hidden">
-      {/* Circuit Board Background */}
-      <div
-        className="absolute inset-0 z-0"
-        style={{
-          background: "#f8fafc",
-          backgroundImage: `
-            linear-gradient(90deg, #e2e8f0 1px, transparent 1px),
-            linear-gradient(180deg, #e2e8f0 1px, transparent 1px),
-            linear-gradient(90deg, #cbd5e1 1px, transparent 1px),
-            linear-gradient(180deg, #cbd5e1 1px, transparent 1px)
-          `,
-          backgroundSize: "50px 50px, 50px 50px, 10px 10px, 10px 10px",
-        }}
-      />
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 overflow-x-hidden">
+      {/* Animated Background Elements */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <motion.div
+          className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-3xl"
+          animate={{
+            x: [0, 100, 0],
+            y: [0, -50, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        />
+        <motion.div
+          className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-r from-pink-500/20 to-cyan-500/20 rounded-full blur-3xl"
+          animate={{
+            x: [0, -80, 0],
+            y: [0, 60, 0],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        />
+        <motion.div
+          className="absolute top-1/2 left-1/2 w-64 h-64 bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.2, 1],
+            rotate: [0, 180, 360],
+          }}
+          transition={{
+            duration: 30,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        />
+      </div>
+
       {/* Navigation */}
       <motion.nav 
         className="fixed top-0 w-full bg-white/10 backdrop-blur-2xl z-50 border-b border-white/20"
@@ -221,7 +218,7 @@ const LandingPage = () => {
               <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center shadow-lg shadow-blue-500/25">
                 <Stethoscope className="h-7 w-7 text-white" />
               </div>
-              <span className="text-xl font-bold text-white">Clínica InnovaSalud</span>
+              <span className="text-xl font-bold text-white">Dr. Alejandro Rivas</span>
             </motion.div>
             
             {/* Desktop Menu */}
@@ -299,104 +296,160 @@ const LandingPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <Sparkles className="h-6 w-6 text-cyan-400" />
-            <span className="text-white font-semibold">Medicina del Futuro, Hoy</span>
+            <Sparkles className="h-5 w-5 text-cyan-400" />
+            <span className="text-white/90 font-medium">Medicina del Futuro, Hoy</span>
           </motion.div>
+          
           <motion.h1 
-            className="text-6xl md:text-8xl font-black text-[#1e293b] mb-6"
-            initial={{ opacity: 0, y: 30 }}
+            className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-200 to-cyan-200 mb-8 leading-tight"
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            style={{ y: y1 }}
           >
-            Salud{" "}
-            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              Reinventada
-            </span>
+            Tu Salud es Nuestra
+            <br />
+            <motion.span 
+              className="bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent inline-block"
+              animate={{ 
+                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+              }}
+              transition={{ 
+                duration: 3, 
+                repeat: Infinity, 
+                ease: "linear" 
+              }}
+              style={{ backgroundSize: "200% 200%" }}
+            >
+              Revolución
+            </motion.span>
           </motion.h1>
+          
           <motion.p 
-            className="text-xl md:text-2xl text-[#334155] max-w-3xl mx-auto mb-12"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            Bienvenido a Clínica InnovaSalud, donde la tecnología de punta y el cuidado humano se unen para transformar tu bienestar.
-          </motion.p>
-          <motion.div
+            className="text-xl md:text-2xl text-white/80 mb-12 max-w-4xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
+            Más de 15 años revolucionando la medicina con tecnología de vanguardia, 
+            inteligencia artificial y el toque humano que necesitas
+          </motion.p>
+          
+          <motion.div 
+            className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+          >
             <motion.a
-              href="#contacto"
-              className="inline-flex items-center space-x-3 bg-gradient-to-r from-green-500 to-cyan-500 text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-green-500/25 hover:shadow-green-500/40 transition-all duration-300"
-              whileHover={{ scale: 1.05, y: -3 }}
+              href="#servicios"
+              className="group bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-10 py-5 rounded-full text-lg font-bold shadow-2xl shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-300"
+              whileHover={{ scale: 1.05, y: -5 }}
               whileTap={{ scale: 0.95 }}
             >
-              <span>Agenda Tu Consulta</span>
-              <ArrowRight className="h-5 w-5" />
+              <span className="flex items-center space-x-3">
+                <Zap className="h-6 w-6" />
+                <span>Explorar Servicios</span>
+                <ArrowRight className="h-5 w-5 group-hover:translate-x-2 transition-transform" />
+              </span>
+            </motion.a>
+            <motion.a
+              href="#contacto"
+              className="group border-2 border-white/30 bg-white/10 backdrop-blur-xl text-white px-10 py-5 rounded-full text-lg font-bold hover:bg-white hover:text-slate-900 transition-all duration-300"
+              whileHover={{ scale: 1.05, y: -5 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <span className="flex items-center space-x-3">
+                <Calendar className="h-6 w-6" />
+                <span>Agendar Consulta</span>
+              </span>
             </motion.a>
           </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 1.2 }}
+            className="flex flex-col items-center"
+          >
+            <p className="text-white/60 mb-4">Descubre el futuro de la medicina</p>
+            <motion.div
+              animate={{ y: [0, 10, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <ChevronDown className="h-8 w-8 text-cyan-400" />
+            </motion.div>
+          </motion.div>
         </div>
+
+        {/* Hero Image */}
+        <motion.div 
+          className="absolute right-10 top-1/2 transform -translate-y-1/2 hidden lg:block"
+          initial={{ opacity: 0, x: 100, scale: 0.8 }}
+          animate={{ opacity: 1, x: 0, scale: 1 }}
+          transition={{ duration: 1, delay: 0.5 }}
+          style={{ y: y2 }}
+        >
+          <div className="relative">
+            <div className="w-96 h-96 rounded-full overflow-hidden border-4 border-white/20 shadow-2xl">
+              <img 
+                src="https://images.unsplash.com/photo-1612636321938-2a60d4febfae?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzB8MHwxfHNlYXJjaHwyfHxkb2N0b3IlMjBwb3J0cmFpdHxlbnwwfHx8Ymx1ZXwxNzUyMzY1OTY5fDA&ixlib=rb-4.1.0&q=85"
+                alt="Dr. Alejandro Rivas"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <motion.div 
+              className="absolute -inset-4 rounded-full bg-gradient-to-r from-blue-500/30 to-cyan-500/30 blur-xl"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            />
+          </div>
+        </motion.div>
       </section>
 
-      {/* About Us Section */}
-      <section id="sobre-mi" className="py-20 px-6 lg:px-8 bg-black/10">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-          <motion.div 
-            className="order-2 md:order-1"
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <motion.div
-              className="inline-block bg-gradient-to-r from-blue-500/20 to-cyan-500/20 backdrop-blur-xl border border-white/20 rounded-full px-6 py-2 mb-6"
-              whileHover={{ scale: 1.05 }}
-            >
-              <span className="text-cyan-400 font-semibold">Nuestra Filosofía</span>
-            </motion.div>
-            <h2 className="text-5xl md:text-7xl font-black text-[#1e293b] mb-6">
-              Sobre Nosotros
-            </h2>
-            <p className="text-xl text-[#334155] leading-relaxed mb-8">
-              En Clínica InnovaSalud, fusionamos la experiencia médica con la última tecnología para ofrecer un cuidado de la salud personalizado y proactivo. Creemos en un enfoque integral, donde cada paciente es el centro de un universo de bienestar. Nuestra misión es transformar vidas a través de la innovación, la empatía y la excelencia clínica.
-            </p>
-            <div className="flex space-x-8">
-                <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center shadow-lg">
-                        <Award className="h-6 w-6 text-white" />
-                    </div>
-                    <div>
-                        <p className="font-bold text-white text-lg">Excelencia Clínica</p>
-                        <p className="text-white/60">Cuidado de la más alta calidad.</p>
-                    </div>
+      {/* Stats Section */}
+      <motion.section 
+        className="py-20 relative"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+      >
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[
+              { number: "15+", label: "Años de Experiencia", icon: Award, color: "from-blue-500 to-cyan-500" },
+              { number: "5000+", label: "Pacientes Felices", icon: Users, color: "from-green-500 to-emerald-500" },
+              { number: "98%", label: "Satisfacción", icon: Heart, color: "from-pink-500 to-rose-500" },
+              { number: "24/7", label: "Disponibilidad", icon: Shield, color: "from-purple-500 to-indigo-500" }
+            ].map((stat, index) => (
+              <motion.div 
+                key={index}
+                className="text-center group"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.05, y: -10 }}
+              >
+                <div className={`w-20 h-20 bg-gradient-to-r ${stat.color} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:shadow-xl transition-all duration-300`}>
+                  <stat.icon className="h-10 w-10 text-white" />
                 </div>
-                <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
-                        <Heart className="h-6 w-6 text-white" />
-                    </div>
-                    <div>
-                        <p className="font-bold text-white text-lg">Cuidado Humano</p>
-                        <p className="text-white/60">Empatía en cada interacción.</p>
-                    </div>
-                </div>
-            </div>
-          </motion.div>
-          <motion.div 
-            className="order-1 md:order-2 h-96 md:h-[500px] rounded-3xl overflow-hidden shadow-2xl shadow-blue-500/20"
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <img 
-              src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80"
-              alt="Equipo Médico de Clínica InnovaSalud"
-              className="w-full h-full object-cover"
-            />
-          </motion.div>
+                <motion.div 
+                  className="text-5xl font-black text-white mb-2"
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 100, delay: index * 0.1 + 0.3 }}
+                  viewport={{ once: true }}
+                >
+                  {stat.number}
+                </motion.div>
+                <div className="text-white/70 font-medium">{stat.label}</div>
+              </motion.div>
+            ))}
+          </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Services Gallery Section */}
       <section id="servicios" className="py-20 px-6 lg:px-8 relative">
@@ -414,13 +467,13 @@ const LandingPage = () => {
             >
               <span className="text-cyan-400 font-semibold">Servicios Premium</span>
             </motion.div>
-            <h2 className="text-5xl md:text-7xl font-black text-[#1e293b] mb-6">
+            <h2 className="text-5xl md:text-7xl font-black text-white mb-6">
               Medicina del{" "}
               <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
                 Futuro
               </span>
             </h2>
-            <p className="text-xl text-[#334155] max-w-3xl mx-auto">
+            <p className="text-xl text-white/70 max-w-3xl mx-auto">
               Tecnología de vanguardia combinada con el cuidado humano más cálido
             </p>
           </motion.div>
@@ -476,7 +529,7 @@ const LandingPage = () => {
                 layout
                 whileHover={{ y: -15, scale: 1.02 }}
               >
-                <div className="relative overflow-hidden rounded-3xl bg-white/90 border border-[#e2e8f0] group-hover:border-white/40 transition-all duration-500">
+                <div className="relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-xl border border-white/20 group-hover:border-white/40 transition-all duration-500">
                   <div className="relative h-64 overflow-hidden">
                     <img 
                       src={service.image}
@@ -500,8 +553,6 @@ const LandingPage = () => {
                     <motion.div 
                       className="mt-6 flex items-center text-cyan-400 font-semibold group-hover:text-white transition-colors"
                       whileHover={{ x: 10 }}
-                      onClick={() => handleShowDetails(service)}
-                      style={{ cursor: 'pointer' }}
                     >
                       <span>Ver más detalles</span>
                       <ArrowRight className="h-4 w-4 ml-2" />
@@ -511,6 +562,110 @@ const LandingPage = () => {
               </motion.div>
             ))}
           </motion.div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="sobre-mi" className="py-20 px-6 lg:px-8 relative">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <div className="relative">
+                <motion.div 
+                  className="w-full h-96 rounded-3xl overflow-hidden border border-white/20 shadow-2xl"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <img 
+                    src="https://images.unsplash.com/photo-1612276529624-33e7430ebce8?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzB8MHwxfHNlYXJjaHwzfHxkb2N0b3IlMjBwb3J0cmFpdHxlbnwwfHx8Ymx1ZXwxNzUyMzY1OTY5fDA&ixlib=rb-4.1.0&q=85"
+                    alt="Dr. Alejandro Rivas"
+                    className="w-full h-full object-cover"
+                  />
+                </motion.div>
+                <motion.div 
+                  className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-3xl blur-2xl"
+                  animate={{ 
+                    scale: [1, 1.1, 1],
+                    rotate: [0, 180, 360] 
+                  }}
+                  transition={{ 
+                    duration: 20, 
+                    repeat: Infinity, 
+                    ease: "linear" 
+                  }}
+                />
+              </div>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <motion.div
+                className="inline-block bg-gradient-to-r from-green-500/20 to-cyan-500/20 backdrop-blur-xl border border-white/20 rounded-full px-6 py-2 mb-8"
+                whileHover={{ scale: 1.05 }}
+              >
+                <span className="text-green-400 font-semibold">Conoce al Doctor</span>
+              </motion.div>
+              
+              <h2 className="text-4xl md:text-6xl font-black text-white mb-6">
+                Creando{" "}
+                <span className="bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent">
+                  Historias
+                </span>
+                {" "}de Salud
+              </h2>
+              
+              <p className="text-xl text-white/80 mb-8 leading-relaxed">
+                Cada consulta es una oportunidad única para transformar vidas. 
+                Con más de 15 años revolucionando la medicina, combino la tecnología 
+                más avanzada con el cuidado humano excepcional.
+              </p>
+              
+              <motion.div 
+                className="space-y-4 mb-8"
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+              >
+                {[
+                  { icon: Award, text: "Certificado por la Asociación Nacional de Medicina" },
+                  { icon: Users, text: "Especialista en atención familiar integral" },
+                  { icon: Zap, text: "Pionero en telemedicina avanzada" }
+                ].map((item, index) => (
+                  <motion.div 
+                    key={index}
+                    className="flex items-center space-x-4 group"
+                    variants={itemVariants}
+                    whileHover={{ x: 10 }}
+                  >
+                    <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-cyan-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <item.icon className="h-6 w-6 text-white" />
+                    </div>
+                    <span className="text-white/90 font-medium">{item.text}</span>
+                  </motion.div>
+                ))}
+              </motion.div>
+
+              <motion.a
+                href="#contacto"
+                className="inline-flex items-center space-x-3 bg-gradient-to-r from-green-500 to-cyan-500 text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-green-500/25 hover:shadow-green-500/40 transition-all duration-300"
+                whileHover={{ scale: 1.05, y: -3 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span>Agenda Tu Consulta</span>
+                <ArrowRight className="h-5 w-5" />
+              </motion.a>
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -530,13 +685,13 @@ const LandingPage = () => {
             >
               <span className="text-pink-400 font-semibold">Testimonios Reales</span>
             </motion.div>
-            <h2 className="text-5xl md:text-7xl font-black text-[#1e293b] mb-6">
+            <h2 className="text-5xl md:text-7xl font-black text-white mb-6">
               Vidas{" "}
               <span className="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
                 Transformadas
               </span>
             </h2>
-            <p className="text-xl text-[#334155]">
+            <p className="text-xl text-white/70">
               Descubre cómo estamos revolucionando la experiencia médica de nuestros pacientes
             </p>
           </motion.div>
@@ -615,13 +770,13 @@ const LandingPage = () => {
             >
               <span className="text-purple-400 font-semibold">Contacto Premium</span>
             </motion.div>
-            <h2 className="text-5xl md:text-7xl font-black text-[#1e293b] mb-6">
-              Vidas{" "}
-              <span className="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
-                Transformadas
+            <h2 className="text-5xl md:text-7xl font-black text-white mb-6">
+              Agenda Tu{" "}
+              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                Revolución
               </span>
             </h2>
-            <p className="text-xl text-[#334155]">
+            <p className="text-xl text-white/70">
               El futuro de tu salud comienza con una simple conversación
             </p>
           </motion.div>
@@ -639,7 +794,7 @@ const LandingPage = () => {
                   whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <label className="block text-[#334155] font-bold mb-3 text-sm uppercase tracking-wider">
+                  <label className="block text-white font-bold mb-3 text-sm uppercase tracking-wider">
                     Nombre Completo *
                   </label>
                   <input
@@ -656,7 +811,7 @@ const LandingPage = () => {
                   whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <label className="block text-[#334155] font-bold mb-3 text-sm uppercase tracking-wider">
+                  <label className="block text-white font-bold mb-3 text-sm uppercase tracking-wider">
                     Teléfono *
                   </label>
                   <input
@@ -675,7 +830,7 @@ const LandingPage = () => {
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.2 }}
               >
-                <label className="block text-[#334155] font-bold mb-3 text-sm uppercase tracking-wider">
+                <label className="block text-white font-bold mb-3 text-sm uppercase tracking-wider">
                   Email *
                 </label>
                 <input
@@ -693,7 +848,7 @@ const LandingPage = () => {
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.2 }}
               >
-                <label className="block text-[#334155] font-bold mb-3 text-sm uppercase tracking-wider">
+                <label className="block text-white font-bold mb-3 text-sm uppercase tracking-wider">
                   ¿Cómo podemos revolucionar tu salud?
                 </label>
                 <textarea
@@ -751,9 +906,9 @@ const LandingPage = () => {
             viewport={{ once: true }}
           >
             {[
-              { icon: MapPin, title: "Ubicación", info: "Av. de la Innovación 456\nCiudad Médica", color: "from-blue-500 to-cyan-500" },
+              { icon: MapPin, title: "Ubicación", info: "Av. Principal 123\nCiudad Central", color: "from-blue-500 to-cyan-500" },
               { icon: Clock, title: "Horarios", info: "Lun-Vie: 8AM-6PM\nSáb: 9AM-2PM", color: "from-green-500 to-emerald-500" },
-              { icon: Phone, title: "Contacto", info: "+1 (234) 567-8900\ncontacto@innovasalud.com", color: "from-purple-500 to-pink-500" }
+              { icon: Phone, title: "Contacto", info: "+1 (234) 567-8900\ndr.rivas@email.com", color: "from-purple-500 to-pink-500" }
             ].map((item, index) => (
               <motion.div 
                 key={index}
@@ -772,21 +927,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section id="faq" className="py-20 px-6 lg:px-8 bg-black/10">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-4xl font-bold text-center text-white mb-10">Preguntas Frecuentes</h2>
-          <div className="space-y-6">
-            {faqs.map((faq, idx) => (
-              <div key={idx} className="bg-white/80 rounded-xl p-6 shadow border border-[#e2e8f0]">
-                <h3 className="text-lg font-semibold text-[#6366f1] mb-2">{faq.question}</h3>
-                <p className="text-white/80">{faq.answer}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer className="bg-black/20 backdrop-blur-xl border-t border-white/10 py-12 px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
@@ -797,41 +937,17 @@ const LandingPage = () => {
             <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center shadow-lg">
               <Stethoscope className="h-7 w-7 text-white" />
             </div>
-            <span className="text-2xl font-bold text-white">Clínica InnovaSalud</span>
+            <span className="text-2xl font-bold text-white">Dr. Alejandro Rivas</span>
           </motion.div>
           <p className="text-white/60 mb-8 max-w-2xl mx-auto leading-relaxed">
             Revolucionando la medicina con tecnología de vanguardia y el toque humano más cálido. 
             Tu salud, nuestra pasión. Tu bienestar, nuestra misión.
           </p>
           <div className="border-t border-white/20 pt-8">
-            <p className="text-white/40">&copy; 2024 Clínica InnovaSalud. Transformando vidas, un paciente a la vez.</p>
+            <p className="text-white/40">&copy; 2024 Dr. Alejandro Rivas. Transformando vidas, un paciente a la vez.</p>
           </div>
         </div>
       </footer>
-
-      {/* Modal de detalles de servicio */}
-      {showModal && selectedService && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8 relative animate-fadeIn">
-            <button onClick={handleCloseModal} className="absolute top-4 right-4 text-gray-500 hover:text-red-500 text-2xl font-bold">×</button>
-            <img src={selectedService.image} alt={selectedService.title} className="w-full h-48 object-cover rounded-xl mb-4" />
-            <h2 className="text-2xl font-bold mb-2 text-slate-900">{selectedService.title}</h2>
-            <p className="text-gray-700 mb-4">{selectedService.description}</p>
-            <ul className="list-disc pl-5 text-gray-600 mb-2">
-              <li>Atención personalizada</li>
-              <li>Equipo médico certificado</li>
-              <li>Resultados rápidos y confiables</li>
-            </ul>
-            <a href="#contacto" className="inline-block mt-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-3 rounded-full font-semibold shadow hover:shadow-lg transition">Solicitar este servicio</a>
-          </div>
-        </div>
-      )}
-
-      {/* WhatsApp flotante (más arriba para no encimarse) */}
-      <a href="https://wa.me/521234567890" target="_blank" rel="noopener noreferrer" className="fixed bottom-24 right-6 z-50 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg p-4 flex items-center animate-bounce transition-all duration-300">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7 mr-2"><path strokeLinecap="round" strokeLinejoin="round" d="M20.52 3.48A11.94 11.94 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.09 1.51 5.8L0 24l6.36-1.67A11.94 11.94 0 0012 24c6.63 0 12-5.37 12-12 0-3.19-1.25-6.18-3.48-8.52zM12 22c-1.85 0-3.62-.5-5.13-1.37l-.36-.21-3.77.99.99-3.77-.21-.36A9.96 9.96 0 012 12c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10zm5.2-7.8c-.28-.14-1.65-.81-1.9-.9-.25-.09-.43-.14-.61.14-.18.28-.7.9-.86 1.08-.16.18-.32.2-.6.07-.28-.14-1.18-.44-2.25-1.4-.83-.74-1.39-1.65-1.55-1.93-.16-.28-.02-.43.12-.57.13-.13.28-.34.42-.51.14-.17.18-.29.28-.48.09-.19.05-.36-.02-.5-.07-.14-.61-1.47-.84-2.01-.22-.54-.45-.47-.62-.48-.16-.01-.36-.01-.56-.01-.19 0-.5.07-.76.34-.26.27-1 1-1 2.43 0 1.43 1.02 2.81 1.16 3 .14.19 2.01 3.08 4.88 4.2.68.29 1.21.46 1.62.59.68.22 1.3.19 1.79.12.55-.08 1.65-.67 1.89-1.32.23-.65.23-1.2.16-1.32-.07-.12-.25-.19-.53-.33z" /></svg>
-        WhatsApp
-      </a>
     </div>
   );
 };
